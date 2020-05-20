@@ -1,0 +1,1 @@
+[{"id":"40493a08.bc2614","type":"function","z":"2d46aace.8daef6","name":"Random Temperature","func":"randomTemperature = Math.floor(Math.random() * 60 - 15);\nmsg.payload.temperature = randomTemperature;\nreturn msg;","outputs":1,"noerr":0,"x":560,"y":340,"wires":[["151b2b1d.7e90c5"]]}]
