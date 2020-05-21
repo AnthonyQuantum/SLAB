@@ -1,0 +1,117 @@
+{
+  "ruleChain": {
+    "additionalInfo": null,
+    "name": "TRACK VALIDATION",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 2,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "layoutX": 824,
+          "layoutY": 148
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "save timeseries",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 0
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 545,
+          "layoutY": 151
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "PARSER",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "msg.my_label = msg.label;\n\nif (msg.my_label === 1) {\n    \n    msg.my_time1 = msg.time;\n    msg.my_temp1 = msg.temperature;\n    msg.my_hit1 = msg.hit;\n    \n    msg.my_accel_x1 = msg.acceleration.x;\n    msg.my_accel_y1 = msg.acceleration.y;\n    msg.my_accel_z1 = msg.acceleration.z;\n    \n    msg.my_orient_yaw1 = msg.orientation.yaw;\n    msg.my_orient_pitch1 = msg.orientation.pitch;\n    msg.my_orient_roll1 = msg.orientation.roll;\n    \n}\n\nif (msg.my_label === 2) {\n    \n    msg.my_time2 = msg.time;\n    msg.my_temp2 = msg.temperature;\n    msg.my_hit2 = msg.hit;\n    \n    msg.my_accel_x2 = msg.acceleration.x;\n    msg.my_accel_y2 = msg.acceleration.y;\n    msg.my_accel_z2 = msg.acceleration.z;\n    \n    msg.my_orient_yaw2 = msg.orientation.yaw;\n    msg.my_orient_pitch2 = msg.orientation.pitch;\n    msg.my_orient_roll2 = msg.orientation.roll;\n}\nif (msg.my_label === 3) {\n    \n    msg.my_time3 = msg.time;\n    msg.my_temp3 = msg.temperature;\n    msg.my_hit3 = msg.hit;\n    \n    msg.my_accel_x3 = msg.acceleration.x;\n    msg.my_accel_y3 = msg.acceleration.y;\n    msg.my_accel_z3 = msg.acceleration.z;\n    \n    msg.my_orient_yaw3 = msg.orientation.yaw;\n    msg.my_orient_pitch3 = msg.orientation.pitch;\n    msg.my_orient_roll3 = msg.orientation.roll;\n}\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 288,
+          "layoutY": 150
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "DEFINE TRUE LABEL",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.label !== undefined;"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 1,
+        "toIndex": 0,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 1,
+        "type": "True"
+      }
+    ],
+    "ruleChainConnections": [
+      {
+        "fromIndex": 0,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "9c0e4310-9b2f-11ea-95bc-51cd83f31411"
+        },
+        "additionalInfo": {
+          "layoutX": 1105,
+          "layoutY": 33,
+          "ruleChainNodeId": "rule-chain-node-5"
+        },
+        "type": "Success"
+      },
+      {
+        "fromIndex": 0,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "b3bff020-9b9e-11ea-95bc-51cd83f31411"
+        },
+        "additionalInfo": {
+          "layoutX": 1106,
+          "layoutY": 116,
+          "ruleChainNodeId": "rule-chain-node-6"
+        },
+        "type": "Success"
+      },
+      {
+        "fromIndex": 0,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "cae1b8b0-9b9e-11ea-95bc-51cd83f31411"
+        },
+        "additionalInfo": {
+          "layoutX": 1112,
+          "layoutY": 193,
+          "ruleChainNodeId": "rule-chain-node-7"
+        },
+        "type": "Success"
+      },
+      {
+        "fromIndex": 0,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "da8b4600-9b9e-11ea-95bc-51cd83f31411"
+        },
+        "additionalInfo": {
+          "layoutX": 1114,
+          "layoutY": 269,
+          "ruleChainNodeId": "rule-chain-node-8"
+        },
+        "type": "Success"
+      }
+    ]
+  }
+}

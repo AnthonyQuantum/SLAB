@@ -1,0 +1,175 @@
+{
+  "ruleChain": {
+    "additionalInfo": null,
+    "name": "ACCELERATION RESTRICTION",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 3,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "layoutX": 934,
+          "layoutY": 403
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Bad accel",
+        "debugMode": false,
+        "configuration": {
+          "alarmType": "${deviceName}",
+          "alarmDetailsBuildJs": "var details = {};\n\nif (metadata.prevAlarmDetails) {\n    var prevDetails = JSON.parse(metadata.prevAlarmDetails);\n    details.count = prevDetails.count + 1;\n    details.value = prevDetails.value;\n    details.time = prevDetails.time;\n    details.name = prevDetails.name;\n    details.CV = prevDetails.CV;\n    details.contractor = prevDetails.contractor;\n    details.type = prevDetails.type;\n} else {\n    details.value = msg.acceleration.x;\n    details.count = 1;\n    details.time = msg.time;\n    details.name = \"Label No.\"+msg.label;\n    details.CV = msg.truck;\n    details.contractor = msg.contractor;\n    details.type = \"bad acceleration on x\";\n\n}\n\nreturn details;",
+          "severity": "CRITICAL",
+          "propagate": true,
+          "useMessageAlarmData": false,
+          "relationTypes": []
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 617,
+          "layoutY": 109
+        },
+        "type": "org.thingsboard.rule.engine.action.TbClearAlarmNode",
+        "name": "Good accel",
+        "debugMode": false,
+        "configuration": {
+          "alarmType": "${deviceName}",
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\ndetails.clearedAcceleration = msg.acceleration;\n\nreturn details;"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 618,
+          "layoutY": 406
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Validate",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return (msg.acceleration.x > 5 || msg.acceleration.x < -5)"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 363,
+          "layoutY": 407
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "DEFINE ACCEL",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.acceleration !== undefined;"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 622,
+          "layoutY": 305
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Validate",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return (msg.acceleration.y > 5 || msg.acceleration.y < -5)"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 926,
+          "layoutY": 309
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Bad accel",
+        "debugMode": false,
+        "configuration": {
+          "alarmType": "${deviceName}",
+          "alarmDetailsBuildJs": "var details = {};\n\nif (metadata.prevAlarmDetails) {\n    var prevDetails = JSON.parse(metadata.prevAlarmDetails);\n    details.count = prevDetails.count + 1;\n    details.value = prevDetails.value;\n    details.time = prevDetails.time;\n    details.name = prevDetails.name;\n    details.CV = prevDetails.CV;\n    details.contractor = prevDetails.contractor;\n    details.type = prevDetails.type;\n} else {\n    details.value = msg.acceleration.y;\n    details.count = 1;\n    details.time = msg.time;\n    details.name = \"Label No.\"+msg.label;\n    details.CV = msg.truck;\n    details.contractor = msg.contractor;\n    details.type = \"bad acceleration on y\";\n\n}\n\nreturn details;",
+          "severity": "CRITICAL",
+          "propagate": true,
+          "useMessageAlarmData": false,
+          "relationTypes": []
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 619,
+          "layoutY": 204
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Validate",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return (msg.acceleration.z > 5 || msg.acceleration.z < -5)"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 912,
+          "layoutY": 205
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Bad accel",
+        "debugMode": false,
+        "configuration": {
+          "alarmType": "${deviceName}",
+          "alarmDetailsBuildJs": "var details = {};\n\nif (metadata.prevAlarmDetails) {\n    var prevDetails = JSON.parse(metadata.prevAlarmDetails);\n    details.count = prevDetails.count + 1;\n    details.value = prevDetails.value;\n    details.time = prevDetails.time;\n    details.name = prevDetails.name;\n    details.CV = prevDetails.CV;\n    details.contractor = prevDetails.contractor;\n    details.type = prevDetails.type;\n} else {\n    details.value = msg.acceleration.z;\n    details.count = 1;\n    details.time = msg.time;\n    details.name = \"Label No.\"+msg.label;\n    details.CV = msg.truck;\n    details.contractor = msg.contractor;\n    details.type = \"bad acceleration on z\";\n\n}\n\nreturn details;",
+          "severity": "CRITICAL",
+          "propagate": true,
+          "useMessageAlarmData": false,
+          "relationTypes": []
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 4,
+        "type": "Created"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 0,
+        "type": "True"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 4,
+        "type": "False"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 2,
+        "type": "True"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 5,
+        "type": "True"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 6,
+        "type": "False"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 6,
+        "type": "Created"
+      },
+      {
+        "fromIndex": 6,
+        "toIndex": 1,
+        "type": "False"
+      },
+      {
+        "fromIndex": 6,
+        "toIndex": 7,
+        "type": "True"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}

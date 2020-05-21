@@ -1,0 +1,173 @@
+{
+  "ruleChain": {
+    "additionalInfo": null,
+    "name": "Root Rule Chain",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 3,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "layoutX": 845,
+          "layoutY": 178
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "save timeseries",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 0
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 589,
+          "layoutY": 89
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbOriginatorTypeFilterNode",
+        "name": "if device",
+        "debugMode": false,
+        "configuration": {
+          "originatorTypes": [
+            "DEVICE"
+          ]
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 578,
+          "layoutY": 178
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgAttributesNode",
+        "name": "Save Client Attributes",
+        "debugMode": false,
+        "configuration": {
+          "scope": "CLIENT_SCOPE"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 248,
+          "layoutY": 154
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbMsgTypeSwitchNode",
+        "name": "Message Type Switch",
+        "debugMode": false,
+        "configuration": {
+          "version": 0
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 508,
+          "layoutY": 246
+        },
+        "type": "org.thingsboard.rule.engine.action.TbLogNode",
+        "name": "Log RPC from Device",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return '\\nIncoming message:\\n' + JSON.stringify(msg) + '\\nIncoming metadata:\\n' + JSON.stringify(metadata);"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 428,
+          "layoutY": 376
+        },
+        "type": "org.thingsboard.rule.engine.action.TbLogNode",
+        "name": "Log Other",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return '\\nIncoming message:\\n' + JSON.stringify(msg) + '\\nIncoming metadata:\\n' + JSON.stringify(metadata);"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 324,
+          "layoutY": 439
+        },
+        "type": "org.thingsboard.rule.engine.rpc.TbSendRPCRequestNode",
+        "name": "RPC Call Request",
+        "debugMode": false,
+        "configuration": {
+          "timeoutInSeconds": 60
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 463,
+          "layoutY": 309
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateRelationNode",
+        "name": "Relate to Asset",
+        "debugMode": false,
+        "configuration": {
+          "direction": "FROM",
+          "relationType": "ToAlarmPropagationAsset",
+          "entityType": "ASSET",
+          "entityNamePattern": "Thermostat Alarms",
+          "entityTypePattern": "AlarmPropagationAsset",
+          "entityCacheExpiration": 300,
+          "createEntityIfNotExists": true,
+          "changeOriginatorToRelatedEntity": false,
+          "removeCurrentRelations": false
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 1,
+        "toIndex": 0,
+        "type": "False"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 5,
+        "type": "Other"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 2,
+        "type": "Post attributes"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 4,
+        "type": "RPC Request from Device"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 6,
+        "type": "RPC Request to Device"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 7,
+        "type": "Entity Created"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 1,
+        "type": "Post telemetry"
+      }
+    ],
+    "ruleChainConnections": [
+      {
+        "fromIndex": 1,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "97ca62f0-9b9f-11ea-95bc-51cd83f31411"
+        },
+        "additionalInfo": {
+          "layoutX": 1135,
+          "layoutY": 80,
+          "ruleChainNodeId": "rule-chain-node-10"
+        },
+        "type": "True"
+      }
+    ]
+  }
+}
