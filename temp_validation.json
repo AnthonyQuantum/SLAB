@@ -1,0 +1,131 @@
+{
+  "ruleChain": {
+    "additionalInfo": null,
+    "name": "Temp Validation",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 0,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "layoutX": 246,
+          "layoutY": 338
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "Rename",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "metadata.deviceName = \"Label No.\"+ msg.label;\nmetadata.deviceType = \"Label No.\"+ msg.label;\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 674,
+          "layoutY": 355
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Bad temp",
+        "debugMode": true,
+        "configuration": {
+          "alarmType": "${deviceName}",
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\ndetails = JSON.parse(metadata.prevAlarmDetails);\n}\nreturn details;",
+          "severity": "CRITICAL",
+          "propagate": true,
+          "useMessageAlarmData": false,
+          "relationTypes": []
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 663,
+          "layoutY": 175
+        },
+        "type": "org.thingsboard.rule.engine.action.TbClearAlarmNode",
+        "name": "Good temp",
+        "debugMode": true,
+        "configuration": {
+          "alarmType": "${deviceName}",
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\nreturn details;"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 347,
+          "layoutY": 181
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Validate",
+        "debugMode": true,
+        "configuration": {
+          "jsScript": "return msg.temperature > 20 || msg.temperature < 0;"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 101,
+          "layoutY": 438
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "DEFINE TEMP",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.temperature !== undefined;"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 1000,
+          "layoutY": 51
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "save telemetry",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 0
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 248,
+          "layoutY": 536
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Fetch temperature thresholds to metadata",
+        "debugMode": false,
+        "configuration": {
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [],
+          "serverAttributeNames": [
+            "minTemp",
+            "maxTemp"
+          ],
+          "latestTsKeyNames": [],
+          "tellFailureIfAbsent": true,
+          "getLatestValueWithTs": false
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 3,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 1,
+        "type": "True"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 2,
+        "type": "False"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}
