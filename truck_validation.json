@@ -1,0 +1,211 @@
+{
+  "ruleChain": {
+    "additionalInfo": {
+      "description": ""
+    },
+    "name": "TRUCK VALIDATION",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 6,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 272,
+          "layoutY": 299
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "save timeseries",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 0
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 547,
+          "layoutY": 31
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Get Last Time",
+        "debugMode": false,
+        "configuration": {
+          "tellFailureIfAbsent": true,
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [
+            "lastTime1",
+            "lastTime2",
+            "lastTime3"
+          ],
+          "serverAttributeNames": [],
+          "latestTsKeyNames": [],
+          "getLatestValueWithTs": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 544,
+          "layoutY": 233
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetCustomerAttributeNode",
+        "name": "Get Customer Email",
+        "debugMode": false,
+        "configuration": {
+          "telemetry": false,
+          "attrMapping": {
+            "email": "customerEmail"
+          }
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 549,
+          "layoutY": 314
+        },
+        "type": "org.thingsboard.rule.engine.metadata.TbGetAttributesNode",
+        "name": "Get Device Coords",
+        "debugMode": false,
+        "configuration": {
+          "tellFailureIfAbsent": true,
+          "clientAttributeNames": [],
+          "sharedAttributeNames": [
+            "latitude",
+            "longitude"
+          ],
+          "serverAttributeNames": [],
+          "latestTsKeyNames": [],
+          "getLatestValueWithTs": false
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 802,
+          "layoutY": 153
+        },
+        "type": "org.thingsboard.rule.engine.telemetry.TbMsgTimeseriesNode",
+        "name": "save timeseries",
+        "debugMode": false,
+        "configuration": {
+          "defaultTTL": 0
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 545,
+          "layoutY": 151
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "PARSER",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "msg.my_label = msg.label;\n\nif (msg.my_label === 1) {\n    metadata.firstItem === true;\n    metadata.lastTime1 = msg.time;\n    msg.time1 = msg.time;\n    msg.temperature1 = msg.temperature;\n    msg.hit1 = msg.hit;\n    \n    msg.accelerationX1 = msg.acceleration.x;\n    msg.accelerationY1 = msg.acceleration.y;\n    msg.accelerationZ1 = msg.acceleration.z;\n    \n    msg.orientationYAW1 = msg.orientation.yaw;\n    msg.orientationPITCH1 = msg.orientation.pitch;\n    msg.orientationROLL1 = msg.orientation.roll;\n    \n}\n\nif (msg.my_label === 2) {\n    metadata.secondItem === true;\n    metadata.lastTime2 = msg.time;\n    msg.time2 = msg.time;\n    msg.temperature2 = msg.temperature;\n    msg.hit2 = msg.hit;\n    \n    msg.accelerationX2 = msg.acceleration.x;\n    msg.accelerationY2 = msg.acceleration.y;\n    msg.accelerationZ2 = msg.acceleration.z;\n    \n    msg.orientationYAW2 = msg.orientation.yaw;\n    msg.orientationPITCH2 = msg.orientation.pitch;\n    msg.orientationROLL2 = msg.orientation.roll;\n}\nif (msg.my_label === 3) {\n    metadata.thirdItem === true;\n    metadata.lastTime3 = msg.time;\n    msg.time3 = msg.time;\n    msg.temperature3 = msg.temperature;\n    msg.hit3 = msg.hit;\n    \n    msg.accelerationX3 = msg.acceleration.x;\n    msg.accelerationY3 = msg.acceleration.y;\n    msg.accelerationZ3 = msg.acceleration.z;\n    \n    msg.orientationYAW3 = msg.orientation.yaw;\n    msg.orientationPITCH3 = msg.orientation.pitch;\n    msg.orientationROLL3 = msg.orientation.roll;\n}\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 271,
+          "layoutY": 150
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "DEFINE TRUE LABEL",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.label !== undefined;"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 4,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 2,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 6,
+        "toIndex": 5,
+        "type": "True"
+      },
+      {
+        "fromIndex": 6,
+        "toIndex": 0,
+        "type": "False"
+      }
+    ],
+    "ruleChainConnections": [
+      {
+        "fromIndex": 4,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "475f0c20-9c8b-11ea-8df3-c773a43c06bf"
+        },
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 1103,
+          "layoutY": 267,
+          "ruleChainNodeId": "rule-chain-node-9"
+        },
+        "type": "Success"
+      },
+      {
+        "fromIndex": 4,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "2eef66d0-9c8b-11ea-8df3-c773a43c06bf"
+        },
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 1102,
+          "layoutY": 206,
+          "ruleChainNodeId": "rule-chain-node-10"
+        },
+        "type": "Success"
+      },
+      {
+        "fromIndex": 4,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "cf2d8bf0-9c8a-11ea-8df3-c773a43c06bf"
+        },
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 1100,
+          "layoutY": 144,
+          "ruleChainNodeId": "rule-chain-node-11"
+        },
+        "type": "Success"
+      },
+      {
+        "fromIndex": 4,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "106122d0-9c8b-11ea-8df3-c773a43c06bf"
+        },
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 1099,
+          "layoutY": 77,
+          "ruleChainNodeId": "rule-chain-node-12"
+        },
+        "type": "Success"
+      }
+    ]
+  }
+}

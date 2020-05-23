@@ -1,0 +1,332 @@
+{
+  "ruleChain": {
+    "additionalInfo": null,
+    "name": "ORIENTATION CONTROL",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 8,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 498,
+          "layoutY": 355
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "information transformation",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "metadata.contractor = msg.contractor;\nmetadata.label = msg.label;\nmetadata.truck = msg.truck;\nmetadata.time = msg.time;\nmetadata.value = msg.orientation.yaw;\nmsg.info = \"high orientation on yaw\";\nmetadata.info = msg.info;\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 487,
+          "layoutY": 248
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "information transformation",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "metadata.contractor = msg.contractor;\nmetadata.label = msg.label;\nmetadata.truck = msg.truck;\nmetadata.time = msg.time;\nmetadata.value = msg.orientation.pitch;\nmsg.info = \"high orientation on pitch\";\nmetadata.info = msg.info;\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 510,
+          "layoutY": 144
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "information transformation",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "metadata.contractor = msg.contractor;\nmetadata.label = msg.label;\nmetadata.truck = msg.truck;\nmetadata.time = msg.time;\nmetadata.value = msg.orientation.roll;\nmsg.info = \"high orientation on roll\";\nmetadata.info = msg.info;\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 743,
+          "layoutY": 355
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Bad orientation",
+        "debugMode": false,
+        "configuration": {
+          "alarmDetailsBuildJs": "var details = {};\n\nif (metadata.prevAlarmDetails) {\n    var prevDetails = JSON.parse(metadata.prevAlarmDetails);\n    details.count = prevDetails.count + 1;\n    details.value = prevDetails.value;\n    details.time = prevDetails.time;\n    details.name = prevDetails.name;\n    details.CV = prevDetails.CV;\n    details.contractor = prevDetails.contractor;\n    details.type = prevDetails.type;\n} else {\n    details.value = msg.orientation.yaw;\n    details.count = 1;\n    details.time = msg.time;\n    details.name = \"Label No.\"+msg.label;\n    details.CV = msg.truck;\n    details.contractor = msg.contractor;\n    details.type = \"high orientation on yaw\";\n\n}\n\nreturn details;",
+          "useMessageAlarmData": false,
+          "alarmType": "${deviceName}",
+          "severity": "WARNING",
+          "propagate": true,
+          "relationTypes": []
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 1015,
+          "layoutY": 147
+        },
+        "type": "org.thingsboard.rule.engine.action.TbClearAlarmNode",
+        "name": "Good orientation",
+        "debugMode": false,
+        "configuration": {
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\ndetails.clearedOrientation = msg.orientation;\n\nreturn details;",
+          "alarmType": "${deviceName}"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 257,
+          "layoutY": 347
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Validate",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return (msg.orientation.yaw > 44 || msg.orientation.yaw < -44)"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 1008,
+          "layoutY": 355
+        },
+        "type": "org.thingsboard.rule.engine.action.TbClearAlarmNode",
+        "name": "Good orientation",
+        "debugMode": false,
+        "configuration": {
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\ndetails.clearedOrientation = msg.orientation;\n\nreturn details;",
+          "alarmType": "${deviceName}"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 1016,
+          "layoutY": 251
+        },
+        "type": "org.thingsboard.rule.engine.action.TbClearAlarmNode",
+        "name": "Good orientation",
+        "debugMode": false,
+        "configuration": {
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\ndetails.clearedOrientation = msg.orientation;\n\nreturn details;",
+          "alarmType": "${deviceName}"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 58,
+          "layoutY": 227
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "DEFINE ORIENT",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.orientation !== undefined;"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 262,
+          "layoutY": 246
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Validate",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return (msg.orientation.pitch > 44 || msg.orientation.pitch < -44)"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 744,
+          "layoutY": 253
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Bad orientation",
+        "debugMode": false,
+        "configuration": {
+          "alarmDetailsBuildJs": "var details = {};\n\nif (metadata.prevAlarmDetails) {\n    var prevDetails = JSON.parse(metadata.prevAlarmDetails);\n    details.count = prevDetails.count + 1;\n    details.value = prevDetails.value;\n    details.time = prevDetails.time;\n    details.name = prevDetails.name;\n    details.CV = prevDetails.CV;\n    details.contractor = prevDetails.contractor;\n    details.type = prevDetails.type;\n} else {\n    details.value = msg.orientation.pitch;\n    details.count = 1;\n    details.time = msg.time;\n    details.name = \"Label No.\"+msg.label;\n    details.CV = msg.truck;\n    details.contractor = msg.contractor;\n    details.type = \"high orientation on pitch\";\n\n}\n\nreturn details;",
+          "useMessageAlarmData": false,
+          "alarmType": "${deviceName}",
+          "severity": "WARNING",
+          "propagate": true,
+          "relationTypes": []
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 273,
+          "layoutY": 143
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Validate",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return (msg.orientation.roll > 44 || msg.orientation.roll < -44)"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 755,
+          "layoutY": 151
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Bad orientation",
+        "debugMode": false,
+        "configuration": {
+          "alarmDetailsBuildJs": "var details = {};\n\nif (metadata.prevAlarmDetails) {\n    var prevDetails = JSON.parse(metadata.prevAlarmDetails);\n    details.count = prevDetails.count + 1;\n    details.value = prevDetails.value;\n    details.time = prevDetails.time;\n    details.name = prevDetails.name;\n    details.CV = prevDetails.CV;\n    details.contractor = prevDetails.contractor;\n    details.type = prevDetails.type;\n} else {\n    details.value = msg.orientation.roll;\n    details.count = 1;\n    details.time = msg.time;\n    details.name = \"Label No.\"+msg.label;\n    details.CV = msg.truck;\n    details.contractor = msg.contractor;\n    details.type = \"high orientation on roll\";\n\n}\n\nreturn details;",
+          "useMessageAlarmData": false,
+          "alarmType": "${deviceName}",
+          "severity": "WARNING",
+          "propagate": true,
+          "relationTypes": []
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 3,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 1,
+        "toIndex": 10,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 12,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 6,
+        "type": "Created"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 6,
+        "type": "Updated"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 9,
+        "type": "False"
+      },
+      {
+        "fromIndex": 5,
+        "toIndex": 0,
+        "type": "True"
+      },
+      {
+        "fromIndex": 6,
+        "toIndex": 9,
+        "type": "Cleared"
+      },
+      {
+        "fromIndex": 7,
+        "toIndex": 11,
+        "type": "Cleared"
+      },
+      {
+        "fromIndex": 8,
+        "toIndex": 5,
+        "type": "True"
+      },
+      {
+        "fromIndex": 9,
+        "toIndex": 11,
+        "type": "False"
+      },
+      {
+        "fromIndex": 9,
+        "toIndex": 1,
+        "type": "True"
+      },
+      {
+        "fromIndex": 10,
+        "toIndex": 7,
+        "type": "Created"
+      },
+      {
+        "fromIndex": 10,
+        "toIndex": 7,
+        "type": "Updated"
+      },
+      {
+        "fromIndex": 11,
+        "toIndex": 2,
+        "type": "True"
+      },
+      {
+        "fromIndex": 12,
+        "toIndex": 4,
+        "type": "Created"
+      },
+      {
+        "fromIndex": 12,
+        "toIndex": 4,
+        "type": "Updated"
+      }
+    ],
+    "ruleChainConnections": [
+      {
+        "fromIndex": 4,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "76477680-9c90-11ea-8df3-c773a43c06bf"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1321,
+          "layoutY": 248,
+          "ruleChainNodeId": "rule-chain-node-15"
+        },
+        "type": "Cleared"
+      },
+      {
+        "fromIndex": 6,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "76477680-9c90-11ea-8df3-c773a43c06bf"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1321,
+          "layoutY": 248,
+          "ruleChainNodeId": "rule-chain-node-15"
+        },
+        "type": "Cleared"
+      },
+      {
+        "fromIndex": 7,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "76477680-9c90-11ea-8df3-c773a43c06bf"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1321,
+          "layoutY": 248,
+          "ruleChainNodeId": "rule-chain-node-15"
+        },
+        "type": "Cleared"
+      }
+    ]
+  }
+}

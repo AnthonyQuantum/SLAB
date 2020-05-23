@@ -1,0 +1,64 @@
+{
+  "ruleChain": {
+    "additionalInfo": {
+      "description": ""
+    },
+    "name": "EMAIL",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 0,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 291,
+          "layoutY": 149
+        },
+        "type": "org.thingsboard.rule.engine.mail.TbMsgToEmailNode",
+        "name": "prepare email",
+        "debugMode": true,
+        "configuration": {
+          "fromTemplate": "k79128732417@yandex.ru",
+          "toTemplate": "${customerEmail}",
+          "ccTemplate": null,
+          "bccTemplate": null,
+          "subjectTemplate": "An important event has occurred",
+          "bodyTemplate": "Item ${label} on truck ${truck} of ${contractor}\nEvent: ${info}\nTime: ${time}\nExtemal value: ${value}\nCoords: latitude - ${shared_latitude}; longitude - ${shared_longitude}"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 573,
+          "layoutY": 144
+        },
+        "type": "org.thingsboard.rule.engine.mail.TbSendEmailNode",
+        "name": "SEND EMAIL",
+        "debugMode": false,
+        "configuration": {
+          "useSystemSmtpSettings": false,
+          "smtpProtocol": "smtps",
+          "smtpHost": "smtp.yandex.ru",
+          "smtpPort": 465,
+          "timeout": 10000,
+          "enableTls": true,
+          "tlsVersion": "TLSv1.2",
+          "username": "k79128732417",
+          "password": "667788fipizqqZa"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 1,
+        "type": "Success"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}

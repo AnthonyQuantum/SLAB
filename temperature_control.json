@@ -1,0 +1,128 @@
+{
+  "ruleChain": {
+    "additionalInfo": null,
+    "name": "TEMPERATURE CONTROL",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 4,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 56,
+          "layoutY": 313
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Validate",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.temperature >= -10 && msg.temperature <= 40"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 48,
+          "layoutY": 394
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "information transformation",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "metadata.contractor = msg.contractor;\nmetadata.label = msg.label;\nmetadata.truck = msg.truck;\nmetadata.time = msg.time;\nmetadata.value = msg.temperature;\nif (msg.temperature < -10){\n    msg.info = \"low temperature\";\n}\nif (msg.temperature > 40) {\n    msg.info = \"high temperature\";\n}\nmetadata.info = msg.info;\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 317,
+          "layoutY": 394
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Bad temperature",
+        "debugMode": false,
+        "configuration": {
+          "alarmDetailsBuildJs": "var details = {};\n\nif (metadata.prevAlarmDetails) {\n    var prevDetails = JSON.parse(metadata.prevAlarmDetails);\n    details.count = prevDetails.count + 1;\n    details.value = prevDetails.value;\n    details.time = prevDetails.time;\n    details.name = prevDetails.name;\n    details.CV = prevDetails.CV;\n    details.contractor = prevDetails.contractor;\n    details.type = prevDetails.type;\n} else {\n    details.value = msg.temperature;\n    details.count = 1;\n    details.time = msg.time;\n    details.name = \"Label No.\"+msg.my_label;\n    details.CV = msg.truck;\n    details.contractor = msg.contractor;\n    details.type = msg.info;\n}\n\nreturn details;",
+          "useMessageAlarmData": false,
+          "alarmType": "${deviceName}",
+          "severity": "WARNING",
+          "propagate": true,
+          "relationTypes": []
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 657,
+          "layoutY": 397
+        },
+        "type": "org.thingsboard.rule.engine.action.TbClearAlarmNode",
+        "name": "Good temperature",
+        "debugMode": false,
+        "configuration": {
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\ndetails.clearedTemperature = msg.temperature;\n\nreturn details;",
+          "alarmType": "${deviceName}"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 54,
+          "layoutY": 222
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "DEFINE TEMPERATURE",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.temperature !== undefined;"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 1,
+        "type": "False"
+      },
+      {
+        "fromIndex": 1,
+        "toIndex": 2,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
+        "type": "Created"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
+        "type": "Updated"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 0,
+        "type": "True"
+      }
+    ],
+    "ruleChainConnections": [
+      {
+        "fromIndex": 3,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "76477680-9c90-11ea-8df3-c773a43c06bf"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 928,
+          "layoutY": 396,
+          "ruleChainNodeId": "rule-chain-node-7"
+        },
+        "type": "Cleared"
+      }
+    ]
+  }
+}

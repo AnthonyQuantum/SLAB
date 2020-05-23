@@ -1,0 +1,128 @@
+{
+  "ruleChain": {
+    "additionalInfo": null,
+    "name": "HIT CONTROL",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 4,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 39,
+          "layoutY": 310
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Validate",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.hit === 0"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 36,
+          "layoutY": 397
+        },
+        "type": "org.thingsboard.rule.engine.transform.TbTransformMsgNode",
+        "name": "information transformatin",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "metadata.contractor = msg.contractor;\nmetadata.label = msg.label;\nmetadata.truck = msg.truck;\nmetadata.time = msg.time;\nmetadata.value = msg.hit;\nmsg.info = \"hit occured\";\nmetadata.info = msg.info;\nreturn {msg: msg, metadata: metadata, msgType: msgType};"
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 313,
+          "layoutY": 400
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Bad hit",
+        "debugMode": false,
+        "configuration": {
+          "alarmDetailsBuildJs": "var details = {};\n\nif (metadata.prevAlarmDetails) {\n    var prevDetails = JSON.parse(metadata.prevAlarmDetails);\n    details.count = prevDetails.count + 1;\n    details.value = prevDetails.value;\n    details.time = prevDetails.time;\n    details.name = prevDetails.name;\n    details.CV = prevDetails.CV;\n    details.contractor = prevDetails.contractor;\n    details.type = prevDetails.type;\n} else {\n    details.value = msg.hit;\n    details.count = 1;\n    details.time = msg.time;\n    details.name = \"Label No.\"+msg.my_label;\n    details.CV = msg.truck;\n    details.contractor = msg.contractor;\n    details.type = msg.info;\n\n}\n\nreturn details;",
+          "useMessageAlarmData": false,
+          "alarmType": "${deviceName}",
+          "severity": "WARNING",
+          "propagate": true,
+          "relationTypes": []
+        }
+      },
+      {
+        "additionalInfo": {
+          "description": null,
+          "layoutX": 676,
+          "layoutY": 403
+        },
+        "type": "org.thingsboard.rule.engine.action.TbClearAlarmNode",
+        "name": "Good hit",
+        "debugMode": false,
+        "configuration": {
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\ndetails.clearedHit = msg.hit;\n\nreturn details;",
+          "alarmType": "${deviceName}"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 45,
+          "layoutY": 218
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "DEFINE HIT",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.hit !== undefined;"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 1,
+        "type": "False"
+      },
+      {
+        "fromIndex": 1,
+        "toIndex": 2,
+        "type": "Success"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
+        "type": "Created"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 3,
+        "type": "Updated"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 0,
+        "type": "True"
+      }
+    ],
+    "ruleChainConnections": [
+      {
+        "fromIndex": 3,
+        "targetRuleChainId": {
+          "entityType": "RULE_CHAIN",
+          "id": "76477680-9c90-11ea-8df3-c773a43c06bf"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 979,
+          "layoutY": 401,
+          "ruleChainNodeId": "rule-chain-node-7"
+        },
+        "type": "Cleared"
+      }
+    ]
+  }
+}

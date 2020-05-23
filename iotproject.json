@@ -9,8 +9,8 @@
         "typeAlias": "entities_table",
         "type": "latest",
         "title": "New widget",
-        "sizeX": 7.5,
-        "sizeY": 6.5,
+        "sizeX": 7,
+        "sizeY": 8,
         "config": {
           "timewindow": {
             "realtime": {
@@ -115,9 +115,9 @@
               "type": "entity",
               "dataKeys": [
                 {
-                  "name": "my_temp1",
+                  "name": "temperature1",
                   "type": "timeseries",
-                  "label": "my_temp1",
+                  "label": "temperature1",
                   "color": "#2196f3",
                   "settings": {
                     "excludeFromStacking": false,
@@ -147,12 +147,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.10210349549615971
+                  "_hash": 0.6078319436670758
                 },
                 {
-                  "name": "my_hit1",
+                  "name": "hit1",
                   "type": "timeseries",
-                  "label": "my_hit1",
+                  "label": "hit1",
                   "color": "#4caf50",
                   "settings": {
                     "excludeFromStacking": false,
@@ -182,12 +182,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.052389127428376314
+                  "_hash": 0.5744864792010089
                 },
                 {
-                  "name": "my_accel_x1",
+                  "name": "accelerationX1",
                   "type": "timeseries",
-                  "label": "my_accel_x1",
+                  "label": "accelerationX1",
                   "color": "#f44336",
                   "settings": {
                     "excludeFromStacking": false,
@@ -217,12 +217,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.75240896262403
+                  "_hash": 0.3396324359227294
                 },
                 {
-                  "name": "my_accel_y1",
+                  "name": "accelerationY1",
                   "type": "timeseries",
-                  "label": "my_accel_y1",
+                  "label": "accelerationY1",
                   "color": "#ffc107",
                   "settings": {
                     "excludeFromStacking": false,
@@ -252,12 +252,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.8910914854685963
+                  "_hash": 0.6661009115166028
                 },
                 {
-                  "name": "my_accel_z1",
+                  "name": "accelerationZ1",
                   "type": "timeseries",
-                  "label": "my_accel_z1",
+                  "label": "accelerationZ1",
                   "color": "#607d8b",
                   "settings": {
                     "excludeFromStacking": false,
@@ -287,12 +287,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.9556832090692646
+                  "_hash": 0.051197998888721674
                 },
                 {
-                  "name": "my_orient_yaw1",
+                  "name": "orientationYAW1",
                   "type": "timeseries",
-                  "label": "my_orient_yaw1",
+                  "label": "orientationYAW1",
                   "color": "#9c27b0",
                   "settings": {
                     "excludeFromStacking": false,
@@ -322,12 +322,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.7101002509882395
+                  "_hash": 0.28340958760791435
                 },
                 {
-                  "name": "my_orient_pitch1",
+                  "name": "orientationPITCH1",
                   "type": "timeseries",
-                  "label": "my_orient_pitch1",
+                  "label": "orientationPITCH1",
                   "color": "#8bc34a",
                   "settings": {
                     "excludeFromStacking": false,
@@ -357,12 +357,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.010677011605572329
+                  "_hash": 0.6261281845491251
                 },
                 {
-                  "name": "my_orient_roll1",
+                  "name": "orientationROLL1",
                   "type": "timeseries",
-                  "label": "my_orient_roll1",
+                  "label": "orientationROLL1",
                   "color": "#3f51b5",
                   "settings": {
                     "excludeFromStacking": false,
@@ -392,7 +392,7 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.6333757738287484
+                  "_hash": 0.7935637402749911
                 }
               ],
               "entityAliasId": "d2dbae3b-aef3-0991-8495-64b240d0ea20"
@@ -462,8 +462,8 @@
         "typeAlias": "entities_table",
         "type": "latest",
         "title": "New widget",
-        "sizeX": 7.5,
-        "sizeY": 6.5,
+        "sizeX": 7,
+        "sizeY": 8,
         "config": {
           "timewindow": {
             "realtime": {
@@ -560,8 +560,8 @@
         "typeAlias": "openstreetmap",
         "type": "latest",
         "title": "New widget",
-        "sizeX": 8.5,
-        "sizeY": 6,
+        "sizeX": 8,
+        "sizeY": 8,
         "config": {
           "datasources": [
             {
@@ -621,10 +621,7 @@
             "tooltipFunction": "var deviceType = dsData[dsIndex]['deviceType'];\r\nif (typeof deviceType !== undefined) {\r\n    if (deviceType == \"energy meter\") {\r\n        return '<b>${entityName}</b><br/><b>Energy:</b> ${energy:2} kWt<br/>';\r\n    } else if (deviceType == \"thermometer\") {\r\n        return '<b>${entityName}</b><br/><b>Temperature:</b> ${temperature:2} °C<br/>';\r\n    }\r\n}",
             "labelFunction": "var deviceType = dsData[dsIndex]['deviceType'];\r\nif (typeof deviceType !== undefined) {\r\n    if (deviceType == \"energy meter\") {\r\n        return '<span style=\"color:orange;\">${entityName}, ${energy:2} kWt</span>';\r\n    } else if (deviceType == \"thermometer\") {\r\n        return '<span style=\"color:blue;\">${entityName}, ${temperature:2} °C</span>';\r\n    }\r\n}",
             "customProviderTileUrl": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            "defaultCenterPosition": [
-              0,
-              0
-            ],
+            "defaultCenterPosition": "0,0",
             "showTooltipAction": "click",
             "polygonKeyName": "coordinates",
             "polygonOpacity": 0.5,
@@ -634,7 +631,8 @@
             "showCoverageOnHover": true,
             "animate": true,
             "maxClusterRadius": 80,
-            "removeOutsideVisibleBounds": true
+            "removeOutsideVisibleBounds": true,
+            "provider": "openstreet-map"
           },
           "title": "New OpenStreetMap",
           "dropShadow": true,
@@ -662,13 +660,17 @@
         "typeAlias": "alarms_table",
         "type": "alarm",
         "title": "New widget",
-        "sizeX": 16,
-        "sizeY": 6,
+        "sizeX": 22,
+        "sizeY": 10,
         "config": {
           "timewindow": {
+            "hideInterval": false,
+            "hideAggregation": false,
+            "hideAggInterval": false,
+            "selectedTab": 0,
             "realtime": {
-              "interval": 1000,
-              "timewindowMs": 300000
+              "timewindowMs": 300000,
+              "interval": 1000
             },
             "aggregation": {
               "type": "NONE",
@@ -699,10 +701,12 @@
             "fontWeight": 400,
             "padding": "5px 10px 5px 10px"
           },
-          "useDashboardTimewindow": true,
+          "useDashboardTimewindow": false,
           "showLegend": false,
           "alarmSource": {
             "type": "entity",
+            "name": "alarms",
+            "entityAliasId": "1b749dfc-de95-2b0b-0658-aba6dce69ac8",
             "dataKeys": [
               {
                 "name": "details.time",
@@ -777,18 +781,6 @@
                 "_hash": 0.7524920215335764
               },
               {
-                "name": "details.count",
-                "type": "alarm",
-                "label": "Duration",
-                "color": "#3f51b5",
-                "settings": {
-                  "columnWidth": "0px",
-                  "useCellStyleFunction": false,
-                  "useCellContentFunction": false
-                },
-                "_hash": 0.411087544176556
-              },
-              {
                 "name": "severity",
                 "type": "alarm",
                 "label": "Severity",
@@ -802,9 +794,7 @@
                 },
                 "_hash": 0.6688882597275139
               }
-            ],
-            "entityAliasId": "1b749dfc-de95-2b0b-0658-aba6dce69ac8",
-            "name": "alarms"
+            ]
           },
           "alarmSearchStatus": "ANY",
           "alarmsPollingInterval": 1,
@@ -836,9 +826,9 @@
               "type": "entity",
               "dataKeys": [
                 {
-                  "name": "my_temp2",
+                  "name": "temperature2",
                   "type": "timeseries",
-                  "label": "my_temp2",
+                  "label": "temperature2",
                   "color": "#2196f3",
                   "settings": {
                     "excludeFromStacking": false,
@@ -868,12 +858,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.8003611216248057
+                  "_hash": 0.3528793298209021
                 },
                 {
-                  "name": "my_hit2",
+                  "name": "hit2",
                   "type": "timeseries",
-                  "label": "my_hit2",
+                  "label": "hit2",
                   "color": "#4caf50",
                   "settings": {
                     "excludeFromStacking": false,
@@ -903,12 +893,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.6579560333456087
+                  "_hash": 0.005722485021131485
                 },
                 {
-                  "name": "my_accel_x2",
+                  "name": "accelerationX2",
                   "type": "timeseries",
-                  "label": "my_accel_x2",
+                  "label": "accelerationX2",
                   "color": "#f44336",
                   "settings": {
                     "excludeFromStacking": false,
@@ -938,12 +928,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.7297007880517921
+                  "_hash": 0.4758936329550081
                 },
                 {
-                  "name": "my_accel_y2",
+                  "name": "accelerationY2",
                   "type": "timeseries",
-                  "label": "my_accel_y2",
+                  "label": "accelerationY2",
                   "color": "#ffc107",
                   "settings": {
                     "excludeFromStacking": false,
@@ -973,12 +963,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.9366184460892928
+                  "_hash": 0.41067958693268336
                 },
                 {
-                  "name": "my_accel_z2",
+                  "name": "accelerationZ2",
                   "type": "timeseries",
-                  "label": "my_accel_z2",
+                  "label": "accelerationZ2",
                   "color": "#607d8b",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1008,12 +998,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.48374106682203877
+                  "_hash": 0.5134729833891436
                 },
                 {
-                  "name": "my_orient_yaw2",
+                  "name": "orientationYAW2",
                   "type": "timeseries",
-                  "label": "my_orient_yaw2",
+                  "label": "orientationYAW2",
                   "color": "#9c27b0",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1043,12 +1033,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.7855260805376576
+                  "_hash": 0.13955447539246957
                 },
                 {
-                  "name": "my_orient_pitch2",
+                  "name": "orientationPITCH2",
                   "type": "timeseries",
-                  "label": "my_orient_pitch2",
+                  "label": "orientationPITCH2",
                   "color": "#8bc34a",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1078,12 +1068,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.17030794608465172
+                  "_hash": 0.8571432212607715
                 },
                 {
-                  "name": "my_orient_roll2",
+                  "name": "orientationROLL2",
                   "type": "timeseries",
-                  "label": "my_orient_roll2",
+                  "label": "orientationROLL2",
                   "color": "#3f51b5",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1113,7 +1103,7 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.8055342644047314
+                  "_hash": 0.4794499289294849
                 }
               ],
               "entityAliasId": "d2dbae3b-aef3-0991-8495-64b240d0ea20"
@@ -1191,9 +1181,9 @@
               "type": "entity",
               "dataKeys": [
                 {
-                  "name": "my_temp3",
+                  "name": "temperature3",
                   "type": "timeseries",
-                  "label": "my_temp3",
+                  "label": "temperature3",
                   "color": "#2196f3",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1223,12 +1213,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.44570069155259273
+                  "_hash": 0.48350000773955193
                 },
                 {
-                  "name": "my_hit3",
+                  "name": "hit3",
                   "type": "timeseries",
-                  "label": "my_hit3",
+                  "label": "hit3",
                   "color": "#4caf50",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1258,12 +1248,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.0725926315457106
+                  "_hash": 0.9133819187048187
                 },
                 {
-                  "name": "my_accel_x3",
+                  "name": "accelerationX3",
                   "type": "timeseries",
-                  "label": "my_accel_x3",
+                  "label": "accelerationX3",
                   "color": "#f44336",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1293,12 +1283,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.8905933515375448
+                  "_hash": 0.4168071712599286
                 },
                 {
-                  "name": "my_accel_y3",
+                  "name": "accelerationY3",
                   "type": "timeseries",
-                  "label": "my_accel_y3",
+                  "label": "accelerationY3",
                   "color": "#ffc107",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1328,12 +1318,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.6780639127780677
+                  "_hash": 0.688003802326417
                 },
                 {
-                  "name": "my_accel_z3",
+                  "name": "accelerationZ3",
                   "type": "timeseries",
-                  "label": "my_accel_z3",
+                  "label": "accelerationZ3",
                   "color": "#607d8b",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1363,12 +1353,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.7796083139187124
+                  "_hash": 0.7505654221017206
                 },
                 {
-                  "name": "my_orient_yaw3",
+                  "name": "orientationYAW3",
                   "type": "timeseries",
-                  "label": "my_orient_yaw3",
+                  "label": "orientationYAW3",
                   "color": "#9c27b0",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1398,12 +1388,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.7155566053396791
+                  "_hash": 0.24819258579690717
                 },
                 {
-                  "name": "my_orient_pitch3",
+                  "name": "orientationPITCH3",
                   "type": "timeseries",
-                  "label": "my_orient_pitch3",
+                  "label": "orientationPITCH3",
                   "color": "#8bc34a",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1433,12 +1423,12 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.051285682995342974
+                  "_hash": 0.9305661998613126
                 },
                 {
-                  "name": "my_orient_roll3",
+                  "name": "orientationROLL3",
                   "type": "timeseries",
-                  "label": "my_orient_roll3",
+                  "label": "orientationROLL3",
                   "color": "#3f51b5",
                   "settings": {
                     "excludeFromStacking": false,
@@ -1468,7 +1458,7 @@
                       "color": ""
                     }
                   },
-                  "_hash": 0.2989282563965763
+                  "_hash": 0.7326547402175303
                 }
               ],
               "entityAliasId": "d2dbae3b-aef3-0991-8495-64b240d0ea20"
@@ -1549,31 +1539,28 @@
               "f230e1eb-d31c-3667-0025-7a214d7a2bc9": {
                 "sizeX": 7,
                 "sizeY": 6,
-                "row": 6,
-                "col": 0
+                "row": 0,
+                "col": 7
               },
               "87566638-fd6f-fd2a-1de9-f68bb552e447": {
                 "sizeX": 8,
                 "sizeY": 6,
                 "row": 0,
-                "col": 7
+                "col": 14
               },
               "a42f4330-adb2-ee02-f4d8-c8bd978409e3": {
-                "sizeX": 16,
+                "sizeX": 22,
                 "sizeY": 6,
                 "row": 6,
-                "col": 7
+                "col": 0
               }
             },
             "gridSettings": {
               "backgroundColor": "#eeeeee",
               "color": "rgba(0,0,0,0.870588)",
               "columns": 24,
-              "margins": [
-                10,
-                10
-              ],
-              "backgroundSizeMode": "100%"
+              "backgroundSizeMode": "100%",
+              "margin": 10
             }
           }
         }
@@ -1610,11 +1597,8 @@
               "backgroundColor": "#eeeeee",
               "color": "rgba(0,0,0,0.870588)",
               "columns": 24,
-              "margins": [
-                10,
-                10
-              ],
-              "backgroundSizeMode": "100%"
+              "backgroundSizeMode": "100%",
+              "margin": 10
             }
           }
         }
@@ -1632,14 +1616,13 @@
           "defaultStateEntity": null,
           "rootEntity": {
             "entityType": "ASSET",
-            "id": "5bb53510-9b2c-11ea-95bc-51cd83f31411"
+            "id": "c619dc00-9ad0-11ea-8945-557a14320ccf"
           },
           "direction": "FROM",
-          "maxLevel": 1,
+          "maxLevel": null,
           "fetchLastLevelOnly": false,
           "relationType": "Contains",
           "deviceTypes": [
-            "item",
             "truck"
           ]
         }
@@ -1665,28 +1648,14 @@
           "defaultStateEntity": null,
           "rootEntity": {
             "entityType": "ASSET",
-            "id": "68b91dd0-9b2c-11ea-95bc-51cd83f31411"
+            "id": "d14f9470-9ad0-11ea-8945-557a14320ccf"
           },
           "direction": "FROM",
-          "maxLevel": 1,
+          "maxLevel": null,
           "fetchLastLevelOnly": false,
           "relationType": "Contains",
           "deviceTypes": [
-            "item",
             "truck"
-          ]
-        }
-      },
-      "c8ac9a11-d15a-88c5-1a7a-8539ee2c9786": {
-        "id": "c8ac9a11-d15a-88c5-1a7a-8539ee2c9786",
-        "alias": "BUILDINGS",
-        "filter": {
-          "type": "entityList",
-          "resolveMultiple": true,
-          "entityType": "ASSET",
-          "entityList": [
-            "5bb53510-9b2c-11ea-95bc-51cd83f31411",
-            "68b91dd0-9b2c-11ea-95bc-51cd83f31411"
           ]
         }
       },
@@ -1699,7 +1668,7 @@
           "stateEntityParamName": null,
           "defaultStateEntity": {
             "entityType": "CUSTOMER",
-            "id": "05096e50-9b29-11ea-baa3-8731d51c36af"
+            "id": "193e4d90-9ad0-11ea-8945-557a14320ccf"
           }
         }
       },
@@ -1714,7 +1683,7 @@
           "defaultStateEntity": null,
           "rootEntity": {
             "entityType": "CUSTOMER",
-            "id": "05096e50-9b29-11ea-baa3-8731d51c36af"
+            "id": "193e4d90-9ad0-11ea-8945-557a14320ccf"
           },
           "direction": "FROM",
           "maxLevel": null,
