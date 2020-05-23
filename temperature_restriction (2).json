@@ -1,0 +1,87 @@
+{
+  "ruleChain": {
+    "additionalInfo": null,
+    "name": "TEMPERATURE RESTRICTION",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null
+  },
+  "metadata": {
+    "firstNodeIndex": 3,
+    "nodes": [
+      {
+        "additionalInfo": {
+          "layoutX": 578,
+          "layoutY": 309
+        },
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "Bad temp",
+        "debugMode": false,
+        "configuration": {
+          "alarmType": "${deviceName}",
+          "alarmDetailsBuildJs": "var details = {};\n\nif (metadata.prevAlarmDetails) {\n    var prevDetails = JSON.parse(metadata.prevAlarmDetails);\n    details.count = prevDetails.count + 1;\n    details.value = prevDetails.value;\n    details.time = prevDetails.time;\n    details.name = prevDetails.name;\n    details.CV = prevDetails.CV;\n    details.contractor = prevDetails.contractor;\n    details.type = prevDetails.type;\n} else {\n    details.value = msg.temperature;\n    details.count = 1;\n    details.time = msg.time;\n    details.name = \"Label No.\"+msg.label;\n    details.CV = msg.truck;\n    details.contractor = msg.contractor;\n    if (details.value < -10) {\n        details.type = \"low temperature\";\n    } else {\n        details.type = \"height temperature\";\n    }\n}\n\nreturn details;",
+          "severity": "CRITICAL",
+          "propagate": true,
+          "useMessageAlarmData": false,
+          "relationTypes": []
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 573,
+          "layoutY": 157
+        },
+        "type": "org.thingsboard.rule.engine.action.TbClearAlarmNode",
+        "name": "Good temp",
+        "debugMode": false,
+        "configuration": {
+          "alarmType": "${deviceName}",
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n}\ndetails.clearedTemperature = msg.temperature;\n\nreturn details;"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 309,
+          "layoutY": 221
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "Validate",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.temperature >= -10 && msg.temperature <= 40"
+        }
+      },
+      {
+        "additionalInfo": {
+          "layoutX": 54,
+          "layoutY": 222
+        },
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "DEFINE TEMP",
+        "debugMode": false,
+        "configuration": {
+          "jsScript": "return msg.temperature !== undefined;"
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 2,
+        "toIndex": 1,
+        "type": "True"
+      },
+      {
+        "fromIndex": 2,
+        "toIndex": 0,
+        "type": "False"
+      },
+      {
+        "fromIndex": 3,
+        "toIndex": 2,
+        "type": "True"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}
